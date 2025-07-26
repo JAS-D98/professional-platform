@@ -17,6 +17,7 @@ model User {
 
   reviews    Review[]       @relation("UserReviews")
   professionalProfile Professional?
+  @@map("users_table")
 }
 
 model Professional {
@@ -28,6 +29,9 @@ model Professional {
   location    String
   rating      Float         @default(0)
   reviews     Review[]      @relation("ProfessionalReviews")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  @@map("professionals_table")
 }
 
 model Review {
@@ -37,7 +41,7 @@ model Review {
   reviewerId     String
   professionalId String
   createdAt      DateTime         @default(now())
-
   reviewer       User             @relation("UserReviews", fields: [reviewerId], references: [id])
   professional   Professional     @relation("ProfessionalReviews", fields: [professionalId], references: [id])
+  @@map("reviews_table")
 }
